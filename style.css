@@ -107,7 +107,7 @@ body {
 }
 
 /* winner pop-up message */
-.winning-message {
+.pop-up {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -121,10 +121,10 @@ body {
   color: snow;
   font-size: 4.5rem;
 }
-.winning-message.show {
+.pop-up.show {
   display: flex;
 }
-.winning-message button {
+.pop-up button {
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid snow;
   border-radius: 0.5rem;
@@ -133,6 +133,6 @@ body {
   font-size: 2rem;
   margin-top: 0.75rem;
 }
-.winning-message button:hover {
+.pop-up button:hover {
   background-color: rgba(0, 0, 0, 0.75);
 }

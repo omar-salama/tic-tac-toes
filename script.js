@@ -1,8 +1,8 @@
+const board = document.getElementById("board");
 const cellElements = document.querySelectorAll("[data-cell]");
 const endingMessage = document.querySelector("[data-end-message-text]");
-const endingPopUp = document.getElementById("winningMessage");
-const board = document.getElementById("board");
-const resetartButton = document.getElementById("restartButton");
+const endingPopUp = document.getElementById("popUp");
+const replayButton = document.getElementById("replayButton");
 const X_CLASS = "x";
 const CIRCLE_CLASS = "c";
 const WIN_COMBOS = [
@@ -19,7 +19,7 @@ let circleTurn;
 
 startGame();
 
-resetartButton.addEventListener("click", reset);
+replayButton.addEventListener("click", reset);
 
 function startGame() {
   circleTurn = false;
@@ -33,15 +33,17 @@ function handleClick(e) {
   const cell = e.target;
   const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
   placeMark(cell, currentClass);
-   if (isWin(currentClass)) {
-    showResult({draw: false});
+  if (isWin(currentClass)) {
+    showResult({ draw: false });
   } else if (isDraw()) {
-    showResult({draw: true})
+    showResult({ draw: true });
   } else {
     switchTurns();
     showMarkOnHover();
   }
 }
+
+ // **
 
 function placeMark(cell, currentClass) {
   cell.classList.add(currentClass);
@@ -52,8 +54,7 @@ function switchTurns() {
 function showMarkOnHover() {
   board.classList.remove(X_CLASS);
   board.classList.remove(CIRCLE_CLASS);
-  if (circleTurn) board.classList.add(CIRCLE_CLASS);
-  else board.classList.add(X_CLASS);
+  circleTurn ? board.classList.add(CIRCLE_CLASS) : board.classList.add(X_CLASS);
 }
 
 function isWin(currentClass) {
@@ -71,12 +72,10 @@ function isDraw() {
   });
 }
 
-function showResult({draw: value}) {
-  if (value) {
-    endingMessage.innerText = "Draw!";
-  } else {
-    endingMessage.innerText = `${circleTurn ? "O" : "X"} Wins!`;
-  }
+function showResult({ draw: value }) {
+  value
+    ? (endingMessage.innerText = "Draw!")
+    : (endingMessage.innerText = `${circleTurn ? "O" : "X"} Wins!`);
   endingPopUp.classList.add("show");
 }
 
@@ -87,5 +86,5 @@ function reset() {
     cell.removeEventListener("click", handleClick);
   });
   endingPopUp.classList.remove("show");
-  startGame()
+  startGame();
 }
