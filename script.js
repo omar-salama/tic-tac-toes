@@ -15,14 +15,13 @@ const WIN_COMBOS = [
   [0, 4, 8],
   [2, 4, 6],
 ];
-let circleTurn;
+let circleTurn = true;
 
 startGame();
 
 replayButton.addEventListener("click", reset);
 
-function startGame() {
-  circleTurn = false;
+function startGame() {;
   cellElements.forEach((cell) => {
     cell.addEventListener("click", handleClick, { once: true });
   });
@@ -36,6 +35,7 @@ function handleClick(e) {
   if (isWin(currentClass)) {
     showResult({ draw: false });
   } else if (isDraw()) {
+    switchTurns(); // next round starts with the other player
     showResult({ draw: true });
   } else {
     switchTurns();
