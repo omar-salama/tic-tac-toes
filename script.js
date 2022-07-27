@@ -16,38 +16,31 @@ const WIN_COMBOS = [
   [2, 4, 6],
 ];
 let circleTurn = true;
-
-startGame();
-
 replayButton.addEventListener("click", reset);
-
-function startGame() {;
-  cellElements.forEach((cell) => {
-    cell.addEventListener("click", handleClick, { once: true });
-  });
-  showMarkOnHover();
-}
+board.addEventListener("click", handleClick, true);
+showMarkOnHover();
 
 function handleClick(e) {
   const cell = e.target;
   const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
-  placeMark(cell, currentClass);
+  // do nothing if the cell is already filled
+  if  (cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS)) return;
+  cell.classList.add(currentClass); // places mark on the cell
   if (isWin(currentClass)) {
     showResult({ draw: false });
   } else if (isDraw()) {
-    switchTurns(); // next round starts with the other player
     showResult({ draw: true });
+    // next round starts with the other player
+    switchTurns();
+    showMarkOnHover();
   } else {
     switchTurns();
     showMarkOnHover();
   }
 }
 
- // **
+ // ** helper functions **
 
-function placeMark(cell, currentClass) {
-  cell.classList.add(currentClass);
-}
 function switchTurns() {
   circleTurn = !circleTurn;
 }
@@ -83,8 +76,6 @@ function reset() {
   cellElements.forEach((cell) => {
     cell.classList.remove(X_CLASS);
     cell.classList.remove(CIRCLE_CLASS);
-    cell.removeEventListener("click", handleClick);
   });
   endingPopUp.classList.remove("show");
-  startGame();
 }
