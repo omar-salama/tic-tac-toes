@@ -108,6 +108,7 @@ body {
 
 /* winner pop-up message */
 .pop-up {
+  text-align: center;
   position: fixed;
   top: 0;
   bottom: 0;

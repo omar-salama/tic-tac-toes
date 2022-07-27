@@ -1,6 +1,6 @@
 const board = document.getElementById("board");
 const cellElements = document.querySelectorAll("[data-cell]");
-const endingMessage = document.querySelector("[data-end-message-text]");
+let endingMessage = document.querySelector("[data-end-message-text]");
 const endingPopUp = document.getElementById("popUp");
 const replayButton = document.getElementById("replayButton");
 const X_CLASS = "x";
@@ -16,6 +16,10 @@ const WIN_COMBOS = [
   [2, 4, 6],
 ];
 let circleTurn = true;
+let score = {
+  x: 0,
+  o: 0,
+}
 replayButton.addEventListener("click", reset);
 board.addEventListener("click", handleClick, true);
 showMarkOnHover();
@@ -27,8 +31,11 @@ function handleClick(e) {
   if  (cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS)) return;
   cell.classList.add(currentClass); // places mark on the cell
   if (isWin(currentClass)) {
+    currentClass === X_CLASS ? score.x++ : score.o++;
     showResult({ draw: false });
   } else if (isDraw()) {
+    score.o++;
+    score.x++;
     showResult({ draw: true });
     // next round starts with the other player
     switchTurns();
@@ -69,6 +76,7 @@ function showResult({ draw: value }) {
   value
     ? (endingMessage.innerText = "Draw!")
     : (endingMessage.innerText = `${circleTurn ? "O" : "X"} Wins!`);
+  endingMessage.innerHTML += `<br/>X:${score.x} / O:${score.o}`;
   endingPopUp.classList.add("show");
 }
 
